@@ -38,19 +38,19 @@ public class TodoController {
 
   @PostMapping("/todo/finish")
   public ModelAndView finish(Integer tno) {
-    for(Todo todo:todos) {
-      if(todo.getTno()==tno)
+    for (Todo todo:todos) {
+      if(todo.getTno()==tno) {
         todo.setFinish(true);
+      }
     }
     return new ModelAndView("redirect:/todo/list");
   }
 
   @PostMapping("/todo/delete")
   public ModelAndView delete(Integer tno) {
-    for(Todo todo:todos) {
-      if(todo.getTno()==tno) {
-        todos.remove(todo);
-        break;
+    for (int i = todos.size() - 1; i >= 0; i--) {
+      if (todos.get(i).getTno() == tno) {
+        todos.remove(i);
       }
     }
     return new ModelAndView("redirect:/todo/list");

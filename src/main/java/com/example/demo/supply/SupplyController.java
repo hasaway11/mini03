@@ -16,11 +16,11 @@ public class SupplyController {
 		return new ModelAndView("supply/list").addObject("supplies", supplies);
 	}
 	
-	@GetMapping("/supply/write")
+	@GetMapping("/supply/add")
 	public void write() {
 	}
 	
-	@PostMapping("/supply/write")
+	@PostMapping("/supply/add")
 	public ModelAndView write(Supply supply) {
 		supply.setSno(sno++);
 		supplies.add(supply);
@@ -42,23 +42,27 @@ public class SupplyController {
 			if (supply.getSno() == sno)
 				supply.setCount(supply.getCount() + 1);
 		}
-		return new ModelAndView("redirect:/supply/list");
+		return new ModelAndView("redirect:/supply/read?sno=" + sno);
 	}
 	
 	@PostMapping("/supply/dec")
 	public ModelAndView dec(int sno) {
 		for (Supply supply : supplies) {
-			if (supply.getSno() == sno)
-				supply.setCount(supply.getCount() - 1);
+			if (supply.getSno()==sno) {
+				if(supply.getCount()>1) {
+					supply.setCount(supply.getCount() - 1);
+				}
+			}
 		}
-		return new ModelAndView("redirect:/supply/list");
+		return new ModelAndView("redirect:/supply/read?sno=" + sno);
 	}
 	
 	@PostMapping("/supply/delete")
 	public ModelAndView delete(Integer sno) {
-		for (Supply supply : supplies) {
-			if (supply.getSno() == sno)
-				supplies.remove(supply);
+		for (int i = supplies.size() - 1; i >= 0; i--) {
+			if (supplies.get(i).getSno() == sno) {
+				supplies.remove(i);
+			}
 		}
 		return new ModelAndView("redirect:/supply/list");
 	}

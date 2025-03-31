@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/todo/main.css" rel="stylesheet">
-  <link href="/todo/nav.css" rel="stylesheet">
+  <link href="/supply/main.css" rel="stylesheet">
+  <link href="/supply/nav.css" rel="stylesheet">
   <title>Document</title>
 </head>
 <body>
@@ -27,30 +27,28 @@
           <thead>
           <tr>
             <th>번호</th>
-            <th>마감일</th>
-            <th>작성일</th>
-            <th>할일</th>
+            <th>비품</th>
+            <th>개수</th>
+            <th>입고일</th>
           </tr>
           </thead>
           <tbody>
-          <tr th:each="t:${todos}">
-            <td th:text="${t.tno}"></td>
-            <td th:text="${t.deadline}"></td>
-            <td th:text="${t.regDate}"></td>
+          <tr th:each="s:${supplies}">
+            <td th:text="${s.sno}"></td>
             <td>
-              <a th:href="'/todo/read?tno='+${t.tno}" th:text="${t.title + (t.finish ? '(완료)' : '')}"></a>
+              <a th:href="'/supply/read?sno='+${s.sno}" th:text="${s.name}"></a>
             </td>
+            <td th:text="${s.count}"></td>
+            <td th:text="${s.regDate}"></td>
           </tr>
           </tbody>
         </table>
       </div>
-      <a class="btn btn-info" href="/todo/write">할일 작성으로</a>
+      <a class="btn btn-info" href="/supply/add">비품 추가로</a>
     </section>
     <aside>부가정보</aside>
   </main>
-  <footer>
-    copyright &copy;2025 ICIA
-  </footer>
+  <footer>copyright &copy;2025 ICIA</footer>
 </div>
 </body>
 </html>
