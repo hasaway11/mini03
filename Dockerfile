@@ -2,6 +2,7 @@
 FROM eclipse-temurin:17-jdk-jammy as builder
 WORKDIR /app
 COPY . .
+RUN chmod +x gradlew  # 실행 권한 추가
 RUN ./gradlew clean build
 
 # 2. Run 단계
