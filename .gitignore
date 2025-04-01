@@ -12,8 +12,8 @@ build/
 
 ### Gradle ###
 .gradle/
-!gradle-wrapper.jar
-**/gradle-wrapper.properties
+#!gradle-wrapper.jar
+#**/gradle-wrapper.properties
 
 ### Logs ###
 logs/
