@@ -9,8 +9,8 @@ public interface ContactDao {
   @Select(value = "select * from contact")
   List<Contact> findAll();
 
-  @SelectKey(statement="select contact_seq.nextval from dual", keyProperty="tno", resultType=Integer.class, before=true)
-  @Insert("insert into contact(cno, name, address, tel) values(#{tno}, #{name}, #{address}, #{tel})")
+  @SelectKey(statement="select contact_seq.nextval from dual", keyProperty="cno", resultType=Integer.class, before=true)
+  @Insert("insert into contact(cno, name, address, tel) values(#{cno}, #{name}, #{address}, #{tel})")
   boolean save(Contact contact);
 
   @Select("select * from contact where cno=#{cno} and rownum=1")

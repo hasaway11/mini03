@@ -32,8 +32,8 @@ public class SupplyController {
   public ModelAndView findById(@RequestParam Integer sno) {
     Optional<Supply> result = supplyService.findBySno(sno);
     if (result.isEmpty())
-      return new ModelAndView("redirect:/contact/list");
-    return new ModelAndView("contact/read").addObject("contact", result.get());
+      return new ModelAndView("redirect:/supply/list");
+    return new ModelAndView("supply/read").addObject("supply", result.get());
   }
 
   @PostMapping("/supply/inc")

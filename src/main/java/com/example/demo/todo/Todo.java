@@ -11,11 +11,11 @@ import java.time.*;
 @Builder
 @ToString
 public class Todo {
-  private int tno;
+  private Integer tno;
   private String title;
   private String memo;
   private LocalDate regDate;
   @DateTimeFormat(pattern="yyyy-MM-dd")
   private LocalDate deadline;
-  private boolean finish;
+  private Boolean finish;
 }

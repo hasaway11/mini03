@@ -10,8 +10,8 @@ import java.time.*;
 @Builder
 @ToString
 public class Supply {
-  private int sno;
+  private Integer sno;
   private String name;
   private LocalDate regDate;
-  private int quantity;
+  private Integer quantity;
 }

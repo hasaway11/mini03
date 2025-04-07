@@ -1,11 +1,13 @@
 package com.example.demo.supply;
 
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import java.util.*;
 
 @Service
 public class SupplyService {
+  @Autowired
   private SupplyDao supplyDao;
 
   public int save(Supply supply) {
