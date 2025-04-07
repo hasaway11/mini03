@@ -1,0 +1,35 @@
+drop table contact;
+drop table supply;
+drop table todo;
+
+drop sequence contact_seq;
+drop sequence supply_seq;
+drop sequence todo_seq;
+
+create table contact (
+	cno number(5) primary key,
+	name varchar2(20 char),
+	address varchar2(20 char),
+	tel varchar2(20 char)
+);
+
+create table supply (
+	sno number(7) primary key,
+	name varchar2(20 char),
+	reg_date date default sysdate,
+	quantity number(5)
+);
+
+
+create table todo (
+	tno number(5) primary key,
+	title varchar2(20 char),
+	memo varchar2(100 char),
+	reg_date date default sysdate,
+	deadline date,
+	finish number(1) default 1
+);
+
+create sequence contact_seq;
+create sequence supply_seq;
+create sequence todo_seq;
