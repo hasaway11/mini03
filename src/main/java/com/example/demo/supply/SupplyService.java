@@ -19,19 +19,22 @@ public class SupplyService {
     return supplyDao.findAll();
   }
 
-  public Optional<Supply> findBySno(Integer sno) {
+  public Supply findBySno(Integer sno) {
     return supplyDao.findBySno(sno);
   }
 
   public boolean inc(Integer sno) {
-    return supplyDao.inc(sno)==1;
+    return supplyDao.inc(sno) == 1;
   }
 
   public boolean dec(Integer sno) {
-    return supplyDao.dec(sno)==1;
+    // 저장된 비품의 개수가 1이하인 경우 감소 불가
+    if(supplyDao.findBySno(sno).getQuantity()<=1)
+      return false;
+    return supplyDao.dec(sno) == 1;
   }
 
   public boolean delete(Integer sno) {
-    return supplyDao.delete(sno)==1;
+    return supplyDao.delete(sno) == 1;
   }
 }

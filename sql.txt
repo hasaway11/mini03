@@ -9,13 +9,13 @@ drop sequence todo_seq;
 create table contact (
 	cno number(5) primary key,
 	name varchar2(20 char),
-	address varchar2(20 char),
+	address varchar2(50 char),
 	tel varchar2(20 char)
 );
 
 create table supply (
 	sno number(7) primary key,
-	name varchar2(20 char),
+	name varchar2(30 char),
 	reg_date date default sysdate,
 	quantity number(5)
 );
@@ -23,11 +23,11 @@ create table supply (
 
 create table todo (
 	tno number(5) primary key,
-	title varchar2(20 char),
-	memo varchar2(100 char),
+	title varchar2(50 char),
+	memo varchar2(200 char),
 	reg_date date default sysdate,
 	deadline date,
-	finish number(1) default 1
+	finish number(1) default 0
 );
 
 create sequence contact_seq;

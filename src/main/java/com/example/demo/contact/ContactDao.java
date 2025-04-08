@@ -14,7 +14,7 @@ public interface ContactDao {
   boolean save(Contact contact);
 
   @Select("select * from contact where cno=#{cno} and rownum=1")
-  Optional<Contact> findByCno(int cno);
+  Contact findByCno(int cno);
 
   @Update("update contact set address=#{address}, tel=#{tel} where cno=#{cno} and rownum=1")
   int update(Contact contact);

@@ -30,10 +30,10 @@ public class ContactController {
 
   @GetMapping("/contact/read")
   public ModelAndView findById(@RequestParam Integer cno) {
-    Optional<Contact> result = contactService.findById(cno);
-    if (result.isEmpty())
+    Contact contact = contactService.findById(cno);
+    if (contact==null)
       return new ModelAndView("redirect:/contact/list");
-    return new ModelAndView("contact/read").addObject("contact", result.get());
+    return new ModelAndView("contact/read").addObject("contact", contact);
   }
 
   @PostMapping("/contact/update")

@@ -19,7 +19,7 @@ public class ContactService {
     return contactDao.findAll();
   }
 
-  public Optional<Contact> findById(Integer cno) {
+  public Contact findById(Integer cno) {
     return contactDao.findByCno(cno);
   }
 

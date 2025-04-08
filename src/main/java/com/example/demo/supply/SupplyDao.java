@@ -14,7 +14,7 @@ public interface SupplyDao {
   boolean save(Supply supply);
 
   @Select("select * from supply where sno=#{sno} and rownum=1")
-  Optional<Supply> findBySno(int sno);
+  Supply findBySno(int sno);
 
   @Update("update supply set quantity=quantity+1 where sno=#{sno} and rownum=1")
   int inc(int sno);

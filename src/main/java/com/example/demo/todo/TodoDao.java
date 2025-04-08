@@ -14,7 +14,7 @@ public interface TodoDao {
   int save(Todo todo);
 
   @Select("select * from todo where tno=#{tno} and rownum=1")
-  Optional<Todo> findByTno(int tno);
+  Todo findByTno(int tno);
 
   @Update("update todo set finish=1 where tno=#{tno} and rownum=1")
   int finish(int tno);

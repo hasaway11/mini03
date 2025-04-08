@@ -19,7 +19,7 @@ public class TodoService {
     return todoDao.findAll();
   }
 
-  public Optional<Todo> findByTno(Integer tno) {
+  public Todo findByTno(Integer tno) {
     return todoDao.findByTno(tno);
   }
 

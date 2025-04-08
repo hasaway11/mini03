@@ -30,10 +30,10 @@ public class TodoController {
 
   @GetMapping("/todo/read")
   public ModelAndView findById(@RequestParam Integer tno) {
-    Optional<Todo> result = todoService.findByTno(tno);
-    if(result.isEmpty())
+    Todo todo = todoService.findByTno(tno);
+    if(todo==null)
       return new ModelAndView("redirect:/todo/list");
-    return new ModelAndView("todo/read").addObject("todo", result.get());
+    return new ModelAndView("todo/read").addObject("todo", todo);
   }
 
   @PostMapping("/todo/finish")
