@@ -1,10 +1,13 @@
 package com.example.demo.contact;
 
+import jakarta.annotation.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 
+import java.io.*;
 import java.util.*;
 
 @Controller
@@ -12,39 +15,42 @@ public class ContactController {
   @Autowired
   private ContactService contactService;
 
-  @GetMapping("/contact/add")
-  public ModelAndView save() {
-    return new ModelAndView("contact/add");
+  @PostConstruct
+  public void init() {
+    File uploadDir = new File(ContactConstants.UPLOAD_DIR);
+    if(!uploadDir.exists())
+      uploadDir.mkdirs();
+  }
+  @PostMapping("/contacts/new")
+  public ResponseEntity<Contact> save(@ModelAttribute ContactCreateDto dto) {
+    Contact contact = contactService.save(dto);
+    return ResponseEntity.ok(contact);
   }
 
-  @PostMapping("/contact/add")
-  public ModelAndView save(@ModelAttribute Contact contact) {
-    int cno = contactService.save(contact);
-    return new ModelAndView("redirect:/contact/read?cno=" + cno);
+  @GetMapping("/contacts")
+  public ResponseEntity<List<Contact>> findAll() {
+    return ResponseEntity.ok(contactService.findAll());
   }
 
-  @GetMapping("/contact/list")
-  public ModelAndView findAll() {
-    return new ModelAndView("contact/list").addObject("contacts", contactService.findAll());
-  }
-
-  @GetMapping("/contact/read")
-  public ModelAndView findById(@RequestParam Integer cno) {
+  @GetMapping("/contacts")
+  public ResponseEntity<Contact> findById(@RequestParam Integer cno) {
     Contact contact = contactService.findById(cno);
     if (contact==null)
-      return new ModelAndView("redirect:/contact/list");
-    return new ModelAndView("contact/read").addObject("contact", contact);
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    return ResponseEntity.ok(contact);
   }
 
-  @PostMapping("/contact/update")
-  public ModelAndView update(@ModelAttribute Contact contact) {
-    contactService.update(contact);
-    return new ModelAndView("redirect:/contact/read?cno=" + contact.getCno());
+  @PutMapping("/contacts")
+  public ResponseEntity<Contact> update(@ModelAttribute ContactUpdateDto dto) {
+    Contact contact = contactService.update(dto);
+    return ResponseEntity.ok(contact);
   }
 
-  @PostMapping("/contact/delete")
-  public ModelAndView delete(@RequestParam Integer cno) {
-    contactService.delete(cno);
-    return new ModelAndView("redirect:/contact/list");
+  @DeleteMapping("/contacts")
+  public ResponseEntity<Void> delete(@RequestParam Integer cno) {
+    boolean result = contactService.delete(cno);
+    if(result)
+      return ResponseEntity.ok(null);
+    return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
   }
 }
