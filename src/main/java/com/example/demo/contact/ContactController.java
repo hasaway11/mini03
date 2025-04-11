@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.*;
 
 import java.io.*;
 import java.util.*;
@@ -32,8 +31,8 @@ public class ContactController {
     return ResponseEntity.ok(contactService.findAll());
   }
 
-  @GetMapping("/contacts")
-  public ResponseEntity<Contact> findById(@RequestParam Integer cno) {
+  @GetMapping("/contacts/{cno}")
+  public ResponseEntity<Contact> findById(@PathVariable Integer cno) {
     Contact contact = contactService.findById(cno);
     if (contact==null)
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

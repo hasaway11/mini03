@@ -10,7 +10,8 @@ create table contact (
 	cno number(5) primary key,
 	name varchar2(20 char),
 	address varchar2(50 char),
-	tel varchar2(20 char)
+	tel varchar2(20 char),
+	photo varchar2(100 char)
 );
 
 create table supply (
