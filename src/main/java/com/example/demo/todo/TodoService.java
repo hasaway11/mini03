@@ -10,9 +10,10 @@ public class TodoService {
   @Autowired
   private TodoDao todoDao;
 
-  public int save(Todo todo) {
+  public Todo save(TodoCreateDto dto) {
+    Todo todo = dto.toEntity();
     todoDao.save(todo);
-    return todo.getTno();
+    return todo;
   }
 
   public List<Todo> findAll() {
@@ -23,8 +24,8 @@ public class TodoService {
     return todoDao.findByTno(tno);
   }
 
-  public boolean finish(Integer tno) {
-    return todoDao.finish(tno)==1;
+  public boolean toggle(Integer tno) {
+    return todoDao.toggle(tno)==1;
   }
 
   public boolean delete(Integer tno) {

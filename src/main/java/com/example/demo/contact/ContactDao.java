@@ -10,7 +10,7 @@ public interface ContactDao {
   List<Contact> findAll();
 
   @SelectKey(statement="select contact_seq.nextval from dual", keyProperty="cno", resultType=Integer.class, before=true)
-  @Insert("insert into contact(cno, name, address, tel, photo) values(#{cno}, #{name}, #{address}, #{tel}, #{photo})")
+  @Insert("insert into contact(cno, name, address, tel) values(#{cno}, #{name}, #{address}, #{tel})")
   boolean save(Contact contact);
 
   @Select("select * from contact where cno=#{cno} and rownum=1")

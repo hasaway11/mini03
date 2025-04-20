@@ -6,8 +6,8 @@ import org.springframework.format.annotation.*;
 import java.time.*;
 
 @Getter
-@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @ToString
 public class Todo {
@@ -15,7 +15,6 @@ public class Todo {
   private String title;
   private String memo;
   private LocalDate regDate;
-  @DateTimeFormat(pattern="yyyy-MM-dd")
   private LocalDate deadline;
   private Boolean finish;
 }

@@ -1,56 +1,55 @@
 package com.example.demo.supply;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 
 import java.util.*;
 
+@CrossOrigin("*")
 @Controller
 public class SupplyController {
   @Autowired
   private SupplyService supplyService;
 
-  @GetMapping("/supply/add")
-  public ModelAndView save() {
-    return new ModelAndView("supply/add");
+  @PostMapping("/supplies/new")
+  public ResponseEntity<Supply> save(@RequestBody SupplyCreateDto dto) {
+    Supply supply = supplyService.save(dto);
+    return ResponseEntity.ok(supply);
   }
 
-  @PostMapping("/supply/add")
-  public ModelAndView save(@ModelAttribute Supply supply) {
-    int sno = supplyService.save(supply);
-    return new ModelAndView("redirect:/supply/read?sno=" + sno);
+  @GetMapping("/supplies")
+  public ResponseEntity<List<Supply>> findAll() {
+    return ResponseEntity.ok(supplyService.findAll());
   }
 
-  @GetMapping("/supply/list")
-  public ModelAndView findAll() {
-    return new ModelAndView("supply/list").addObject("supplies", supplyService.findAll());
-  }
-
-  @GetMapping("/supply/read")
-  public ModelAndView findById(@RequestParam Integer sno) {
+  @GetMapping("/supplies/{sno}")
+  public ResponseEntity<Supply> findById(@PathVariable Integer sno) {
     Supply supply = supplyService.findBySno(sno);
     if (supply==null)
-      return new ModelAndView("redirect:/supply/list");
-    return new ModelAndView("supply/read").addObject("supply", supply);
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    return ResponseEntity.ok(supply);
   }
 
-  @PostMapping("/supply/inc")
-  public ModelAndView inc(@RequestParam Integer sno) {
-    supplyService.inc(sno);
-    return new ModelAndView("redirect:/supply/read?sno="+sno);
+  @PutMapping("/supplies/inc/{sno}")
+  public ResponseEntity<Integer> inc(@PathVariable Integer sno) {
+    int quantity = supplyService.inc(sno);
+    return ResponseEntity.ok(quantity);
   }
 
-  @PostMapping("/supply/dec")
-  public ModelAndView dec(@RequestParam Integer sno) {
-    supplyService.dec(sno);
-    return new ModelAndView("redirect:/supply/read?sno="+sno);
+  @PutMapping("/supplies/dec/{sno}")
+  public ResponseEntity<Integer> dec(@PathVariable Integer sno) {
+    int quantity = supplyService.dec(sno);
+    return ResponseEntity.ok(quantity);
   }
 
-  @PostMapping("/supply/delete")
-  public ModelAndView delete(@RequestParam Integer sno) {
-    supplyService.delete(sno);
-    return new ModelAndView("redirect:/supply/list");
+  @DeleteMapping("/supplies/{sno}")
+  public ResponseEntity delete(@PathVariable Integer sno) {
+    boolean result = supplyService.delete(sno);
+    if(!result)
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    return ResponseEntity.ok().build();
   }
 }

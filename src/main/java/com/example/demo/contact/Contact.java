@@ -11,6 +11,4 @@ public class Contact {
   private String name;
   private String address;
   private String tel;
-  @Setter
-  private String photo;
 }

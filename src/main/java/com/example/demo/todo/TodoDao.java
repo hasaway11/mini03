@@ -16,8 +16,8 @@ public interface TodoDao {
   @Select("select * from todo where tno=#{tno} and rownum=1")
   Todo findByTno(int tno);
 
-  @Update("update todo set finish=1 where tno=#{tno} and rownum=1")
-  int finish(int tno);
+  @Update("update todo set finish=1-finish where tno=#{tno} and rownum=1")
+  int toggle(int tno);
 
   @Delete("delete from todo where tno=#{tno} and rownum=1")
   int delete(int tno);

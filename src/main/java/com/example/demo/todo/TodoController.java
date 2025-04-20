@@ -1,50 +1,50 @@
 package com.example.demo.todo;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.*;
 
 import java.util.*;
 
+@CrossOrigin("*")
 @Controller
 public class TodoController {
   @Autowired
   private TodoService todoService;
 
-  @GetMapping("/todo/add")
-  public ModelAndView save() {
-    return new ModelAndView("todo/add");
+  @PostMapping("/todos/new")
+  public ResponseEntity<Todo> save(@RequestBody TodoCreateDto dto) {
+    Todo todo = todoService.save(dto);
+    return ResponseEntity.ok(todo);
   }
 
-  @PostMapping("/todo/add")
-  public ModelAndView save(@ModelAttribute Todo todo) {
-    int tno = todoService.save(todo);
-    return new ModelAndView("redirect:/todo/read?tno=" + tno);
+  @GetMapping("/todos")
+  public ResponseEntity<List<Todo>> findAll() {
+    return ResponseEntity.ok(todoService.findAll());
   }
 
-  @GetMapping("/todo/list")
-  public ModelAndView findAll() {
-    return new ModelAndView("todo/list").addObject("todos", todoService.findAll());
-  }
-
-  @GetMapping("/todo/read")
-  public ModelAndView findById(@RequestParam Integer tno) {
+  @GetMapping("/todos/{tno}")
+  public ResponseEntity<Todo> findById(@PathVariable Integer tno) {
     Todo todo = todoService.findByTno(tno);
     if(todo==null)
-      return new ModelAndView("redirect:/todo/list");
-    return new ModelAndView("todo/read").addObject("todo", todo);
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    return ResponseEntity.ok(todo);
   }
 
-  @PostMapping("/todo/finish")
-  public ModelAndView finish(@RequestParam Integer tno) {
-    todoService.finish(tno);
-    return new ModelAndView("redirect:/todo/read?tno=" + tno);
+  @PutMapping("/todos/toggle/{tno}")
+  public ResponseEntity<Void> finish(@PathVariable int tno) {
+    boolean result = todoService.toggle(tno);
+    if(!result)
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    return ResponseEntity.ok().build();
   }
 
-  @PostMapping("/todo/delete")
-  public ModelAndView delete(@RequestParam Integer tno) {
-    todoService.delete(tno);
-    return new ModelAndView("redirect:/todo/list");
+  @DeleteMapping("/todos/{tno}")
+  public ResponseEntity<Void> delete(@PathVariable Integer tno) {
+    boolean result = todoService.delete(tno);
+    if(!result)
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    return ResponseEntity.ok().build();
   }
 }

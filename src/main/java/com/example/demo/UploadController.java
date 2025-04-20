@@ -8,7 +8,7 @@ import org.springframework.web.multipart.*;
 import java.io.*;
 import java.nio.file.*;
 
-@RestController
+//@RestController
 public class UploadController {
 //  private static final String UPLOAD_DIR = System.getenv("RENDER") != null ? "/opt/render/.render/upload/images/" : "upload/images/";
   private static final String UPLOAD_DIR = "/opt/render/.render/upload/images/";

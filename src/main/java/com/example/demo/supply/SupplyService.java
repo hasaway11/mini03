@@ -10,9 +10,10 @@ public class SupplyService {
   @Autowired
   private SupplyDao supplyDao;
 
-  public int save(Supply supply) {
+  public Supply save(SupplyCreateDto dto) {
+    Supply supply = dto.toEntity();
     supplyDao.save(supply);
-    return supply.getSno();
+    return supply;
   }
 
   public List<Supply> findAll() {
@@ -23,15 +24,17 @@ public class SupplyService {
     return supplyDao.findBySno(sno);
   }
 
-  public boolean inc(Integer sno) {
-    return supplyDao.inc(sno) == 1;
+  public int inc(Integer sno) {
+    supplyDao.inc(sno);
+    return supplyDao.findBySno(sno).getQuantity();
   }
 
-  public boolean dec(Integer sno) {
+  public int dec(Integer sno) {
     // 저장된 비품의 개수가 1이하인 경우 감소 불가
     if(supplyDao.findBySno(sno).getQuantity()<=1)
-      return false;
-    return supplyDao.dec(sno) == 1;
+      return supplyDao.findBySno(sno).getQuantity();
+    supplyDao.dec(sno);
+    return supplyDao.findBySno(sno).getQuantity();
   }
 
   public boolean delete(Integer sno) {

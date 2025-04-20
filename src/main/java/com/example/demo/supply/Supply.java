@@ -5,7 +5,6 @@ import lombok.*;
 import java.time.*;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @Builder
 @ToString
