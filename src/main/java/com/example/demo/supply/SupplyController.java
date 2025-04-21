@@ -1,21 +1,25 @@
 package com.example.demo.supply;
 
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
+import org.springframework.validation.*;
+import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 
 import java.util.*;
 
 @CrossOrigin("*")
+@Validated
 @Controller
 public class SupplyController {
   @Autowired
   private SupplyService supplyService;
 
   @PostMapping("/supplies/new")
-  public ResponseEntity<Supply> save(@RequestBody SupplyCreateDto dto) {
+  public ResponseEntity<Supply> save(@RequestBody @Valid SupplyCreateDto dto, BindingResult br) {
     Supply supply = supplyService.save(dto);
     return ResponseEntity.ok(supply);
   }
@@ -46,7 +50,7 @@ public class SupplyController {
   }
 
   @DeleteMapping("/supplies/{sno}")
-  public ResponseEntity delete(@PathVariable Integer sno) {
+  public ResponseEntity<Void> delete(@PathVariable Integer sno) {
     boolean result = supplyService.delete(sno);
     if(!result)
       return ResponseEntity.status(HttpStatus.CONFLICT).build();

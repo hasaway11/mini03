@@ -1,20 +1,24 @@
 package com.example.demo.todo;
 
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
+import org.springframework.validation.*;
+import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @CrossOrigin("*")
+@Validated
 @Controller
 public class TodoController {
   @Autowired
   private TodoService todoService;
 
   @PostMapping("/todos/new")
-  public ResponseEntity<Todo> save(@RequestBody TodoCreateDto dto) {
+  public ResponseEntity<Todo> save(@RequestBody @Valid TodoCreateDto dto, BindingResult br) {
     Todo todo = todoService.save(dto);
     return ResponseEntity.ok(todo);
   }
@@ -25,7 +29,7 @@ public class TodoController {
   }
 
   @GetMapping("/todos/{tno}")
-  public ResponseEntity<Todo> findById(@PathVariable Integer tno) {
+  public ResponseEntity<Todo> findById(@PathVariable int tno) {
     Todo todo = todoService.findByTno(tno);
     if(todo==null)
       return ResponseEntity.status(HttpStatus.CONFLICT).build();
@@ -41,7 +45,7 @@ public class TodoController {
   }
 
   @DeleteMapping("/todos/{tno}")
-  public ResponseEntity<Void> delete(@PathVariable Integer tno) {
+  public ResponseEntity<Void> delete(@PathVariable int tno) {
     boolean result = todoService.delete(tno);
     if(!result)
       return ResponseEntity.status(HttpStatus.CONFLICT).build();

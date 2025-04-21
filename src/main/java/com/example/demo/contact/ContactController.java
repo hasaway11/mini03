@@ -1,13 +1,17 @@
 package com.example.demo.contact;
 
+import jakarta.validation.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
+import org.springframework.validation.*;
+import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @CrossOrigin("*")
+@Validated
 @Controller
 public class ContactController {
   @Autowired
@@ -21,7 +25,7 @@ public class ContactController {
 //  }
 
   @PostMapping("/contacts/new")
-  public ResponseEntity<Contact> save(@RequestBody ContactCreateDto dto) {
+  public ResponseEntity<Contact> save(@RequestBody @Valid ContactCreateDto dto, BindingResult br) {
     Contact contact = contactService.save(dto);
     return ResponseEntity.ok(contact);
   }
@@ -40,7 +44,7 @@ public class ContactController {
   }
 
   @PutMapping("/contacts")
-  public ResponseEntity<Contact> update(@RequestBody ContactUpdateDto dto) {
+  public ResponseEntity<Contact> update(@RequestBody @Valid ContactUpdateDto dto, BindingResult br) {
     Contact contact = contactService.update(dto);
     return ResponseEntity.ok(contact);
   }
