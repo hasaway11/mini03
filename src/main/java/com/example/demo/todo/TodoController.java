@@ -31,24 +31,18 @@ public class TodoController {
   @GetMapping("/todos/{tno}")
   public ResponseEntity<Todo> findById(@PathVariable int tno) {
     Todo todo = todoService.findByTno(tno);
-    if(todo==null)
-      return ResponseEntity.status(HttpStatus.CONFLICT).build();
     return ResponseEntity.ok(todo);
   }
 
   @PutMapping("/todos/toggle/{tno}")
-  public ResponseEntity<Void> finish(@PathVariable int tno) {
+  public ResponseEntity<Boolean> toggle(@PathVariable int tno) {
     boolean result = todoService.toggle(tno);
-    if(!result)
-      return ResponseEntity.status(HttpStatus.CONFLICT).build();
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok(result);
   }
 
   @DeleteMapping("/todos/{tno}")
   public ResponseEntity<Void> delete(@PathVariable int tno) {
-    boolean result = todoService.delete(tno);
-    if(!result)
-      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    todoService.delete(tno);
     return ResponseEntity.ok().build();
   }
 }

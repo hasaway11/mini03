@@ -37,23 +37,21 @@ public class ContactController {
 
   @GetMapping("/contacts/{cno}")
   public ResponseEntity<Contact> findById(@PathVariable Integer cno) {
-    Contact contact = contactService.findById(cno);
+    Contact contact = contactService.findByCno(cno);
     if (contact==null)
       return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
     return ResponseEntity.ok(contact);
   }
 
   @PutMapping("/contacts")
-  public ResponseEntity<Contact> update(@RequestBody @Valid ContactUpdateDto dto, BindingResult br) {
-    Contact contact = contactService.update(dto);
-    return ResponseEntity.ok(contact);
+  public ResponseEntity<Void> update(@RequestBody @Valid ContactUpdateDto dto, BindingResult br) {
+    contactService.update(dto);
+    return ResponseEntity.ok().build();
   }
 
   @DeleteMapping("/contacts/{cno}")
   public ResponseEntity<Void> delete(@PathVariable Integer cno) {
-    boolean result = contactService.delete(cno);
-    if(result)
-      return ResponseEntity.ok(null);
-    return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+    contactService.delete(cno);
+    return ResponseEntity.ok().build();
   }
 }

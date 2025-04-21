@@ -1,5 +1,6 @@
 package com.example.demo.supply;
 
+import com.example.demo.exception.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -21,23 +22,26 @@ public class SupplyService {
   }
 
   public Supply findBySno(Integer sno) {
-    return supplyDao.findBySno(sno);
+    return supplyDao.findBySno(sno).orElseThrow(()->new EntityNotFoundException("비품를 찾을 수 없습니다"));
   }
 
   public int inc(Integer sno) {
+    if(!supplyDao.existsBySno(sno))
+      throw new EntityNotFoundException("비품을 찾을 수 없습니다");
     supplyDao.inc(sno);
-    return supplyDao.findBySno(sno).getQuantity();
+    return supplyDao.findBySno(sno).get().getQuantity();
   }
 
   public int dec(Integer sno) {
-    // 저장된 비품의 개수가 1이하인 경우 감소 불가
-    if(supplyDao.findBySno(sno).getQuantity()<=1)
-      return supplyDao.findBySno(sno).getQuantity();
-    supplyDao.dec(sno);
-    return supplyDao.findBySno(sno).getQuantity();
+    Supply supply = supplyDao.findBySno(sno).orElseThrow(()->new EntityNotFoundException("비품를 찾을 수 없습니다"));
+    if(supply.getQuantity()>1)
+      throw new JobFailException("더이상 감소할 수 없습니다");
+    return supplyDao.findBySno(sno).get().getQuantity();
   }
 
-  public boolean delete(Integer sno) {
-    return supplyDao.delete(sno) == 1;
+  public void delete(Integer sno) {
+    if(!supplyDao.existsBySno(sno))
+      throw new EntityNotFoundException("비품을 찾을 수 없습니다");
+    supplyDao.delete(sno);
   }
 }

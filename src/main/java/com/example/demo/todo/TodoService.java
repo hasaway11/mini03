@@ -1,5 +1,6 @@
 package com.example.demo.todo;
 
+import com.example.demo.exception.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
@@ -21,14 +22,19 @@ public class TodoService {
   }
 
   public Todo findByTno(Integer tno) {
-    return todoDao.findByTno(tno);
+    return todoDao.findByTno(tno).orElseThrow(()->new EntityNotFoundException("할일을 찾을 수 없습니다 "));
   }
 
   public boolean toggle(Integer tno) {
-    return todoDao.toggle(tno)==1;
+    if(!todoDao.existsByTno(tno))
+      throw new EntityNotFoundException("할일을 찾을 수 없습니다 ");
+    todoDao.toggle(tno);
+    return todoDao.findByTno(tno).get().getFinish();
   }
 
-  public boolean delete(Integer tno) {
-    return todoDao.delete(tno)==1;
+  public void delete(Integer tno) {
+    if(!todoDao.existsByTno(tno))
+      throw new EntityNotFoundException("할일을 찾을 수 없습니다 ");
+    todoDao.delete(tno);
   }
 }

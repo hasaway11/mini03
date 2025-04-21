@@ -10,7 +10,7 @@ public class ContactUpdateDto {
   private String tel;
 //  private MultipartFile photo;
 
-  public Contact toEntity(Contact contact) {
-    return Contact.builder().cno(cno).address(address).tel(tel).name(contact.getName()).build();
+  public Contact toEntity() {
+    return Contact.builder().cno(cno).address(address).tel(tel).build();
   }
 }

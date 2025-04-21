@@ -14,7 +14,10 @@ public interface TodoDao {
   int save(Todo todo);
 
   @Select("select * from todo where tno=#{tno} and rownum=1")
-  Todo findByTno(int tno);
+  Optional<Todo> findByTno(int tno);
+
+  @Select("select count(*) from todo where tno=#{tno} and rownum=1")
+  boolean existsByTno(int tno);
 
   @Update("update todo set finish=1-finish where tno=#{tno} and rownum=1")
   int toggle(int tno);

@@ -7,7 +7,6 @@ import org.springframework.stereotype.*;
 import org.springframework.validation.*;
 import org.springframework.validation.annotation.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.*;
 
 import java.util.*;
 
@@ -32,8 +31,6 @@ public class SupplyController {
   @GetMapping("/supplies/{sno}")
   public ResponseEntity<Supply> findById(@PathVariable Integer sno) {
     Supply supply = supplyService.findBySno(sno);
-    if (supply==null)
-      return ResponseEntity.status(HttpStatus.CONFLICT).build();
     return ResponseEntity.ok(supply);
   }
 
@@ -51,9 +48,7 @@ public class SupplyController {
 
   @DeleteMapping("/supplies/{sno}")
   public ResponseEntity<Void> delete(@PathVariable Integer sno) {
-    boolean result = supplyService.delete(sno);
-    if(!result)
-      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    supplyService.delete(sno);
     return ResponseEntity.ok().build();
   }
 }
