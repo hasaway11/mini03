@@ -6,7 +6,7 @@ import java.util.*;
 
 @Mapper
 public interface SupplyDao {
-  @Select("select * from supply")
+  @Select("select * from supply order by sno asc")
   List<Supply> findAll();
 
   @SelectKey(statement="select supply_seq.nextval from dual", keyProperty="sno", resultType=Integer.class, before=true)

@@ -6,7 +6,7 @@ import java.util.*;
 
 @Mapper
 public interface ContactDao {
-  @Select(value = "select * from contact")
+  @Select(value = "select * from contact order by cno asc")
   List<Contact> findAll();
 
   @SelectKey(statement="select contact_seq.nextval from dual", keyProperty="cno", resultType=Integer.class, before=true)

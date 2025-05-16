@@ -6,7 +6,7 @@ import java.util.*;
 
 @Mapper
 public interface TodoDao {
-  @Select("select * from todo")
+  @Select("select * from todo order by tno asc")
   List<Todo> findAll();
 
   @SelectKey(statement="select todo_seq.nextval from dual", keyProperty="tno", resultType=Integer.class, before=true)
