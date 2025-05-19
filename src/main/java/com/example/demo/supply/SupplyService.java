@@ -36,6 +36,7 @@ public class SupplyService {
     Supply supply = supplyDao.findBySno(sno).orElseThrow(()->new EntityNotFoundException("비품를 찾을 수 없습니다"));
     if(supply.getQuantity()<=1)
       throw new JobFailException("더이상 감소할 수 없습니다");
+    supplyDao.dec(sno);
     return supplyDao.findBySno(sno).get().getQuantity();
   }
 
