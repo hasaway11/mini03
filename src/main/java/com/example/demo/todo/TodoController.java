@@ -40,9 +40,8 @@ public class TodoController {
 
   @Operation(summary="할일 상태 토글", description="할일의 finish를 토글")
   @PutMapping("/todos/toggle/{tno}")
-  public ResponseEntity<Boolean> toggle(@PathVariable int tno) {
-    boolean result = todoService.toggle(tno);
-    return ResponseEntity.ok(result);
+  public ResponseEntity<Todo> toggle(@PathVariable int tno) {
+    return ResponseEntity.ok(todoService.toggle(tno));
   }
 
   @Operation(summary="할일 삭제", description="path variable tno로 할일 삭제")

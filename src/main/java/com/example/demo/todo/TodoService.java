@@ -25,11 +25,11 @@ public class TodoService {
     return todoDao.findByTno(tno).orElseThrow(()->new EntityNotFoundException("할일을 찾을 수 없습니다 "));
   }
 
-  public boolean toggle(Integer tno) {
+  public Todo toggle(Integer tno) {
     if(!todoDao.existsByTno(tno))
       throw new EntityNotFoundException("할일을 찾을 수 없습니다 ");
     todoDao.toggle(tno);
-    return todoDao.findByTno(tno).get().getFinish();
+    return todoDao.findByTno(tno).get();
   }
 
   public void delete(Integer tno) {
